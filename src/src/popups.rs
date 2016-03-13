@@ -38,12 +38,12 @@ pub fn check_global_flags() {
         console.lines[1].visible = false;
         let Flag(addr, bit) = unsafe { flag };
         if let Some(text) = get_flag_str(Flag(addr, 1 << bit)) {
-            let text = if text.len() > 40 {
-                &text[..40]
+            let text = if text.len() > 50 {
+                &text[..50]
             } else {
                 text
             };
-            let _ = write!(console.lines[0].begin(), "\"{}\" has been set", text);
+            let _ = write!(console.lines[0].begin(), "{}", text);
         } else {
             let _ = write!(console.lines[0].begin(), "Flag {:02X} {} has been set", 0xFF & addr, bit);
         }
