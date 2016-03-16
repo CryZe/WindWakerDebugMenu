@@ -50,6 +50,9 @@ pub extern "C" fn game_loop() {
             MenuState::InventoryMenu => inventory_menu::render(),
             MenuState::CheatMenu => cheat_menu::render(),
         }
+    // Prevent opening the Debug Menu if in map select and map select cheat is inactive
+    } else if system::memory::read::<u8>(0x803BD254) == 0x01 && system::memory::read::<u32>(0x80AF03E4) == 0x8038824C { 
+        //Do nothing
     } else if is_pressed(controller::DPAD_DOWN) && unsafe { !popups::visible } {
         let console = Console::get();
         console.visible = true;
