@@ -94,17 +94,43 @@ pub fn apply_cheats() {
                     system::memory::write::<u32>(0x8039830C, 0x40000000);
                     system::memory::write::<u32>(0x80398310, 0x41000000);
                 }
+                InfiniteBombs => {
+                    system::memory::write::<u8>(0x803B8172, 0x63);
+                }
+                InfiniteArrows => {
+                    system::memory::write::<u8>(0x803B8171, 0x63);
+                }
+                ReloadArea => {
+                    system::memory::write::<u8>(0x803BD254, 0x1);
+                }
+                MapSelect => {
+                    system::memory::write::<u32>(0x80AF03E4, 0x8038772C);
+                }
+
+            }
+        }
+        else {
+            match cheat.id {
+                MapSelect => {
+                    // Set the value back to normal if the cheat is not active
+                    system::memory::write::<u32>(0x80AF03E4, 0x8038824C);
+                }
+                _ => {}
             }
         }
     }
 }
 
-static mut cheats: [Cheat; 6] = [Cheat::new(Invincible, "Invincible", true),
+static mut cheats: [Cheat; 10] = [Cheat::new(Invincible, "Invincible", true),
                                  Cheat::new(InfiniteMagic, "Infinite Magic", true),
                                  Cheat::new(InfiniteAir, "Infinite Air", true),
                                  Cheat::new(SwiftWind, "Swift Wind", true),
                                  Cheat::new(MoonJump, "Moon Jump", false),
-                                 Cheat::new(FastMovement, "Fast Movement", false)];
+                                 Cheat::new(FastMovement, "Fast Movement", false),
+                                 Cheat::new(InfiniteBombs, "Infinite Bombs", true),
+                                 Cheat::new(InfiniteArrows, "Infinite Arrows", true),
+                                 Cheat::new(ReloadArea, "Reload Area", false),
+                                 Cheat::new(MapSelect, "Map Select", true)];
 
 #[derive(Copy, Clone)]
 enum CheatId {
@@ -114,6 +140,10 @@ enum CheatId {
     SwiftWind,
     MoonJump,
     FastMovement,
+    InfiniteBombs,
+    InfiniteArrows,
+    ReloadArea,
+    MapSelect,
 }
 
 use self::CheatId::*;
